@@ -1,0 +1,57 @@
+#Welcome message
+def display_welcome_message():
+    """
+    Displays a welcome message to the user.
+    """
+    print("Welcome to the Recipe Chatbot!")
+    print("Tell me the ingredients you have, and i'll suggest some recipes.")
+#function to get ingredients from user
+def get_user_ingredients():
+    """ 
+    Prompts the user to enter ingredients, splits them into list, and returns the list.
+    """
+    ingredients = input("Enter ingredients you have, seperated by commas: ")
+    #split input into a list of ingredients
+    user_ingredients = [ingredients.strip().lower() for ingredient in ingredients.split(",")]
+    return [ingredient.strip().lower() for ingredient in ingredients.split(',')]
+#recipe database
+recipes = [
+    {
+        "name": "Spaghetti",
+        "ingredients": ["tomatoes", "noodles", "salt", "pepper"],
+        "instructions": "Boil noodles, add sauce made from tomatoes, salt, and pepper."
+    },
+    {
+        "name": "Tomato Soup",
+        "ingredients": ["tomatoes", "salt", "water"],
+        "instructions": "Simmmer tomatoes and water, add salt to taste."
+    }
+]
+#function to find matching recipes based on ingredients
+def find_matching_recipes(user_ingredients): 
+    """
+    Finds and returns recipes that use the given ingredients.
+    """
+    matched_recipes = []
+    for recipe in recipes:
+        if all(item in user_ingredients for item in recipe["ingredients"]):
+            matched_recipes.append(recipe)
+    return matched_recipes
+    
+#function to display matching recipes
+def displayed_matched_recipes(matched_recipes):
+    if matched_recipes:
+        print("\nMatched Recipes:")
+        for recipe in matched_recipes:
+            print(f"{recipe['name']} - {recipe['instructions']}")
+    else:
+        print("\nNo matching recipes found. atry adding more ingredients!")
+    
+    #main function to run the chatbot 
+def main():
+    display_welcome_message()
+    user_ingredients = get_user_ingredients()
+    matched_recipes = find_matching_recipes(user_ingredients)
+    displayed_matched_recipes(matched_recipes)
+if __name__ == "__main__":
+    main()
